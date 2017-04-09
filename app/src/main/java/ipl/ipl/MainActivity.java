@@ -2,8 +2,11 @@ package ipl.ipl;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,40 +19,40 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> teams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        teams = new ArrayList<>();
-        teams.add("Mumbai Indians");
-        teams.add("Delhi Daredevils");
-        teams.add("Gujarat Lions");
-        teams.add("Kings XI Punjab");
-        teams.add("Kolkata Knight Riders");
-        teams.add("Rising Pune Supergiants");
-        teams.add("Royal Challengers Bangalore");
-        teams.add("Sunrisers Hyderabad");
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Teams"));
+        tabLayout.addTab(tabLayout.newTab().setText("Fixtures"));
 
-        final ListView teamslistView = (ListView) findViewById(R.id.teamlist);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                MainActivity.this, android.R.layout.simple_list_item_1, teams);
-
-        teamslistView.setAdapter(adapter);
-        teamslistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Log.v("position",String.valueOf(position));
-                Bundle bundle = new Bundle();
-                bundle.putInt("position",position);
-                Intent intent = new Intent(MainActivity.this,DetailActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
+
 
     }
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fixtures_cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="#001829"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="5.5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#001829"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/match_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textColor="#ffffff"
+            tools:text="5 April" />
+
+        <TextView
+            android:id="@+id/match_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="220dp"
+            android:layout_marginStart="220dp"
+            android:layout_toEndOf="@id/match_date"
+            android:layout_toRightOf="@id/match_date"
+            android:padding="2dp"
+            android:textColor="#ffffff"
+            tools:text="8:00 pm" />
+
+        <TextView
+            android:id="@+id/match_teams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/match_date"
+            android:padding="2dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            tools:text="Sunrisers Hyderabad vs Royal Challengers Bangalore" />
+
+        <TextView
+            android:id="@+id/match_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/match_teams"
+            android:padding="2dp"
+            android:textColor="#ffffff"
+            tools:text="Bengaluru" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
