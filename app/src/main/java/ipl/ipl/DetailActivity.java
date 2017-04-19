@@ -64,7 +64,7 @@ public class DetailActivity extends AppCompatActivity {
                         actionBar.setTitle("Kolkata Knight Riders");
                         break;
 
-            case 5 :    String[] PUNE = {"Steve Smith (captain)", "MS Dhoni"," Ajinkya Rahane", "Ankit Sharma", "Ishwar Pandey", "du Plessis", "Mitchell Marsh", "Baba Aparajith"," Ashok Dinda"," Jaskaran Singh", "dam Zampa", "Rajat Bhatia", "Deepak Chahar", "Ben Stokes", "Jaidev Unadkat", "Rahul Chahar", "Saurabh Kumar", "Daniel Christian", "Milind Tandon", "Rahul Tripathi", "Manoj Tiwary", "Lockie Ferguson", "Ankush Bains"};
+            case 5 :    String[] PUNE = {"Steve Smith (captain)", "MS Dhoni"," Ajinkya Rahane", "Ankit Sharma", "Ishwar Pandey", "du Plessis", "Mitchell Marsh", "Baba Aparajith"," Ashok Dinda"," Jaskaran Singh", "Adam Zampa", "Rajat Bhatia", "Deepak Chahar", "Ben Stokes", "Jaidev Unadkat", "Rahul Chahar", "Saurabh Kumar", "Daniel Christian", "Milind Tandon", "Rahul Tripathi", "Manoj Tiwary", "Lockie Ferguson", "Ankush Bains"};
                         playerList = Arrays.asList(PUNE);
                         actionBar.setTitle("Rising Pune Supergiants");
                         break;
