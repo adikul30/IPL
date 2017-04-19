@@ -1,6 +1,6 @@
 # IPL
-IPL 2K17 This is an example of Recycler View
-An app which displays list of players of each team in the current edition of IPL.
+IPL 2K17 An example of RecylerView and Material Design. 
+An app which displays list of players of each team in the current edition of IPL along with all the fixtures.
 TO DO :
       1) Add a Search Box
-      2) Find API for match fixtures
+      2) Fetch RealTime data (match info)
