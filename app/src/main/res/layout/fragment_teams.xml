@@ -8,16 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"/>
 
-    <Button
+    <!--<Button
         android:padding="10dp"
         android:id="@+id/score_button"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:text="Scores"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:textSize="16sp" />-->
 
 </LinearLayout>

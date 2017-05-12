@@ -1,9 +1,16 @@
 package ipl.ipl;
 
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,8 +35,15 @@ public class Scores extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scores);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Score");
+
+
+
+
+        Toast.makeText(Scores.this,"Score will be autoupdated every 10 sec",Toast.LENGTH_LONG).show();
 
         team1 = (TextView) findViewById(R.id.team1);
         team1score = (TextView) findViewById(R.id.team1_score);
@@ -75,7 +89,8 @@ public class Scores extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 //                            mTextView.setText("That didn't work!");
-                            team1.setText("oops");
+
+                            Toast.makeText(Scores.this,"Check your internet",Toast.LENGTH_SHORT).show();
 
 
                         }
@@ -98,4 +113,6 @@ public class Scores extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
     }
+
+
 }
