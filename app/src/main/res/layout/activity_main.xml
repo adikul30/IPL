@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         app:tabPadding="10dp"
@@ -14,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:elevation="6dp"
+        android:layout_gravity="bottom"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:tabMode="scrollable" />

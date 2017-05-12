@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ public class TeamsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_teams, container, false);
         ArrayList<String> teams= new ArrayList<String>();
         teams.add("Mumbai Indians");
@@ -98,6 +100,13 @@ public class TeamsFragment extends Fragment {
                 Intent intent = new Intent(getActivity(),DetailActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+        Button scoresButton = (Button) view.findViewById(R.id.score_button);
+        scoresButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),Scores.class));
             }
         });
         return view;
