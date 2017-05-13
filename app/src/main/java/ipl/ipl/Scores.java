@@ -1,12 +1,10 @@
 package ipl.ipl;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -154,17 +152,26 @@ public class Scores extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        timer.cancel();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        timer.cancel();
         mNotificationManager.cancel(0);
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        timer.schedule(timerTask,10000,10000);
+    }
+
+    @Override
     protected void onStop() {
+        timer.cancel();
         super.onStop();
     }
 }
