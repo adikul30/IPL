@@ -1,14 +1,16 @@
 package ipl.ipl;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Bundle;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +31,8 @@ public class Scores extends AppCompatActivity {
     private Timer timer;
     private TimerTask timerTask;
 
-    TextView team1,team2,team1score,team2score;
+    TextView team1, team2, team1score, team2score;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +43,33 @@ public class Scores extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Score");
 
+        //Notification try starts here
 
+        final NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(Scores.this)
+                .setSmallIcon(R.drawable.ic_github)
+                //.setDefaults(Notification.DEFAULT_SOUND)
+                .setOngoing(true);
 
+        Intent notifyIntent = new Intent(Scores.this, Scores.class);
 
-        Toast.makeText(Scores.this,"Score will be autoupdated every 10 sec",Toast.LENGTH_LONG).show();
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(Scores.this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(notifyIntent);
+        final PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        builder.setContentIntent(resultPendingIntent);
+        final NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        final NotificationCompat.InboxStyle inboxStyle =
+                new NotificationCompat.InboxStyle();
+
+        //Notification Try ends here
+
+        Toast.makeText(Scores.this, "Score will be autoupdated in 10 sec", Toast.LENGTH_SHORT).show();
 
         team1 = (TextView) findViewById(R.id.team1);
         team1score = (TextView) findViewById(R.id.team1_score);
@@ -57,12 +83,11 @@ public class Scores extends AppCompatActivity {
                 public void run() {
                     RequestQueue queue = Volley.newRequestQueue(Scores.this);
                     final String url = "http://stabsiesgst.tk/api/score.php";
-                    // Request a string response from the provided URL.
+
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-//                                    mTextView.setText("Response is: "+ response.substring(0,500));
                                     try {
 
                                         JSONObject jsonObj = new JSONObject(response);
@@ -80,33 +105,47 @@ public class Scores extends AppCompatActivity {
                                         team2.setText(secondteam);
                                         team2score.setText(secondteamscore);
 
+                                        String[] events = new String[6];
+
+                                        events[0]=firstteam;
+                                        events[1]=firstteamscore;
+                                        events[2]=secondteam;
+                                        events[3]=secondteamscore;
+
+                                        for (int i = 0; i < events.length; i++) {
+
+                                            inboxStyle.addLine(events[i]);
+                                        }
+                                        builder.setStyle(inboxStyle);
+                                        builder.setContentTitle("IPL");
+                                        builder.setContentText("Live Scores");
+
+                                        mNotificationManager.notify(0, builder.build());
+
+
                                     } catch (Exception e) {
                                         e.printStackTrace();
-
                                     }
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-//                            mTextView.setText("That didn't work!");
-
-                            Toast.makeText(Scores.this,"Check your internet",Toast.LENGTH_SHORT).show();
-
 
                         }
                     });
                     queue.add(stringRequest);
                 }
             };
-            timer.schedule(timerTask, 10000, 10000);
+            //timer.schedule(timerTask, 10000, 10000);
         } catch (IllegalStateException e) {
-            android.util.Log.i("Damn", "resume error");
+            e.printStackTrace();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        timer.schedule(timerTask, 10000, 10000);
     }
 
     @Override
@@ -114,5 +153,14 @@ public class Scores extends AppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 }
