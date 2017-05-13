@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,8 @@ public class Scores extends AppCompatActivity {
     private TimerTask timerTask;
 
     TextView team1, team2, team1score, team2score;
+    NotificationCompat.Builder builder;
+    NotificationManager mNotificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class Scores extends AppCompatActivity {
 
         //Notification try starts here
 
-        final NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(Scores.this)
+        builder = (NotificationCompat.Builder) new NotificationCompat.Builder(Scores.this)
                 .setSmallIcon(R.drawable.ic_github)
                 //.setDefaults(Notification.DEFAULT_SOUND)
                 .setOngoing(true);
@@ -61,11 +64,12 @@ public class Scores extends AppCompatActivity {
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
         builder.setContentIntent(resultPendingIntent);
-        final NotificationManager mNotificationManager =
+        mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         final NotificationCompat.InboxStyle inboxStyle =
                 new NotificationCompat.InboxStyle();
+
 
         //Notification Try ends here
 
@@ -156,7 +160,7 @@ public class Scores extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timer.cancel();
+        mNotificationManager.cancel(0);
     }
 
     @Override
