@@ -5,9 +5,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.TextView;
@@ -117,6 +119,21 @@ public class BackgroundService extends Service {
                                         builder.setStyle(inboxStyle);
                                         builder.setContentTitle("IPL");
                                         builder.setContentText("Live Scores");
+
+                                        //
+                                        Intent intent = new Intent("GPSLocationUpdates");
+                                        // You can also include some extra data.
+                                        intent.putExtra("Status", "extra");
+                                        Bundle b = new Bundle();
+
+                                        b.putString("firstteam", firstteam);
+                                        b.putString("firstteamscore", firstteamscore);
+                                        b.putString("secondteam", secondteam);
+                                        b.putString("secondteamscore", secondteamscore);
+
+                                        intent.putExtra("ScoreSheet",b);
+                                        LocalBroadcastManager.getInstance(BackgroundService.this).sendBroadcast(intent);
+                                        //
 
                                         mNotificationManager.notify(0, builder.build());
 

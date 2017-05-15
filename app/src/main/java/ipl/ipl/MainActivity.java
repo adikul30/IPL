@@ -1,11 +1,14 @@
 package ipl.ipl;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
+    String firstteam,firstteamscore,secondteam,secondteamscore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this,BackgroundService.class);
         startService(serviceIntent);
 
+        //trying broadcast
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mMessageReceiver, new IntentFilter("GPSLocationUpdates"));
+        //
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
@@ -74,12 +82,12 @@ public class MainActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id==R.id.action_scores){
-            //startActivity(new Intent(this,Scores.class));
-            Toast.makeText(MainActivity.this, "hi there", Toast.LENGTH_SHORT).show();
-
-        }
-        else if(id==R.id.action_github){
+//        if (id==R.id.action_scores){
+//            //startActivity(new Intent(this,Scores.class));
+//            Toast.makeText(MainActivity.this, "hi there", Toast.LENGTH_SHORT).show();
+//
+//        }
+        if(id==R.id.action_github){
             MaterialStyledDialog dialog = new MaterialStyledDialog.Builder(this)
                     .setTitle("Liked this app ?")
                     .withDialogAnimation(true)
@@ -112,5 +120,24 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String message = intent.getStringExtra("Status");
+            Bundle b = intent.getBundleExtra("ScoreSheet");
+            firstteam =  b.getString("firstteam");
+            firstteamscore =  b.getString("firstteamscore");
+            secondteam =  b.getString("secondteam");
+            secondteamscore =  b.getString("secondteamscore");
+            Log.v("1",firstteam);
+            Log.v("2",firstteamscore);
+            Log.v("3",secondteam);
+            Log.v("4",secondteamscore);
+
+
+        }
+    };
 
 }
