@@ -33,7 +33,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public List<String> selectTeam(int choice) {
         List<String> playerList = null;
-        AppCompatActivity activity = DetailActivity.this  ;
+        AppCompatActivity activity = DetailActivity.this;
         ActionBar actionBar = activity.getSupportActionBar();
         actionBar.getElevation();
         switch(choice) {

@@ -70,13 +70,7 @@ public class TeamsFragment extends Fragment {
                 startActivity(intent);
             }
         });
-//        Button scoresButton = (Button) view.findViewById(R.id.score_button);
-//        scoresButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(getActivity(),Scores.class));
-//            }
-//        });
+
         return view;
     }
 

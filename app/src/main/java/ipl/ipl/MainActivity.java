@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Teams"));
         tabLayout.addTab(tabLayout.newTab().setText("Fixtures"));
+
+        Intent serviceIntent = new Intent(this,BackgroundService.class);
+        startService(serviceIntent);
 
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -71,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id==R.id.action_scores){
-            startActivity(new Intent(this,Scores.class));
+            //startActivity(new Intent(this,Scores.class));
+            Toast.makeText(MainActivity.this, "hi there", Toast.LENGTH_SHORT).show();
+
         }
         else if(id==R.id.action_github){
             MaterialStyledDialog dialog = new MaterialStyledDialog.Builder(this)
