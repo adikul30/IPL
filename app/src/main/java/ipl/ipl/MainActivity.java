@@ -4,9 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -20,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -32,9 +36,14 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static ipl.ipl.R.id.main_layout;
+import static ipl.ipl.R.id.snackbar_action;
+
 public class MainActivity extends AppCompatActivity {
 
     String firstteam,firstteamscore,secondteam,secondteamscore;
+    Intent serviceIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +54,18 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Teams"));
         tabLayout.addTab(tabLayout.newTab().setText("Fixtures"));
 
-        Intent serviceIntent = new Intent(this,BackgroundService.class);
+        Toast.makeText(this,"To kill notification destroy app from the app tray",Toast.LENGTH_SHORT).show();
+
+        //Initialzing service
+
+        serviceIntent = new Intent(this,BackgroundService.class);
         startService(serviceIntent);
 
-        //trying broadcast
+        //Receiving broadcast from BackgroundService
+
         LocalBroadcastManager.getInstance(this).registerReceiver(
-                mMessageReceiver, new IntentFilter("GPSLocationUpdates"));
-        //
+                mMessageReceiver, new IntentFilter("LiveUpdates"));
+
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
@@ -82,11 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-//        if (id==R.id.action_scores){
-//            //startActivity(new Intent(this,Scores.class));
-//            Toast.makeText(MainActivity.this, "hi there", Toast.LENGTH_SHORT).show();
-//
-//        }
         if(id==R.id.action_github){
             MaterialStyledDialog dialog = new MaterialStyledDialog.Builder(this)
                     .setTitle("Liked this app ?")
@@ -121,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    //This part is not needed right now...Added for future reference
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -139,5 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+    //
 
 }

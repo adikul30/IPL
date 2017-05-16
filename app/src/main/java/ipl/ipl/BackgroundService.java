@@ -3,6 +3,7 @@ package ipl.ipl;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,9 +38,11 @@ public class BackgroundService extends Service {
     private Timer timer;
     private TimerTask timerTask;
 
+    int NOTIFICATION_ID = 0;
+
     //TextView team1, team2, team1score, team2score;
     NotificationCompat.Builder builder;
-    NotificationManager mNotificationManager;
+    public NotificationManager mNotificationManager;
 
     @Nullable
     @Override
@@ -52,7 +55,7 @@ public class BackgroundService extends Service {
         super.onCreate();
 
 
-        Toast.makeText(BackgroundService.this, "Score will be autoupdated in 10 sec", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(BackgroundService.this, "Score will be autoupdated in 10 sec", Toast.LENGTH_SHORT).show();
 
         try {
             timer = new Timer();
@@ -67,27 +70,33 @@ public class BackgroundService extends Service {
                                 @Override
                                 public void onResponse(String response) {
                                     try {
+
+                                        //On clicking the notification it enters MainActivity.class
+
                                         Intent notifyIntent = new Intent(BackgroundService.this, MainActivity.class);
 
                                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(BackgroundService.this);
                                         stackBuilder.addParentStack(MainActivity.class);
                                         stackBuilder.addNextIntent(notifyIntent);
                                         final PendingIntent resultPendingIntent =
-                                                stackBuilder.getPendingIntent(
-                                                        0,
-                                                        PendingIntent.FLAG_UPDATE_CURRENT
-                                                );
+                                                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
                                         mNotificationManager =
                                                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                        //Building the notification
 
                                         final NotificationCompat.InboxStyle inboxStyle =
                                                 new NotificationCompat.InboxStyle();
                                         builder = (NotificationCompat.Builder) new NotificationCompat.Builder(BackgroundService.this)
                                                 .setSmallIcon(R.drawable.ic_github)
                                                 //.setDefaults(Notification.DEFAULT_SOUND)
-                                                .setOngoing(true);
-                                        builder.setContentIntent(resultPendingIntent);
+                                                .setOngoing(true)
+                                                .setContentTitle("IPL")
+                                                .setContentText("Live Scores")
+                                                .setContentIntent(resultPendingIntent);
 
+                                        //Getting values from JSON
 
                                         Log.v("Background onresponse",response);
                                         JSONObject jsonObj = new JSONObject(response);
@@ -96,15 +105,12 @@ public class BackgroundService extends Service {
                                         JSONObject first = result.optJSONObject(0);
                                         String firstteam = first.optString("team");
                                         String firstteamscore = first.optString("score");
-                                        //team1.setText(firstteam);
-                                        //team1score.setText(firstteamscore);
 
                                         JSONObject second = result.optJSONObject(1);
                                         String secondteam = second.optString("team");
                                         String secondteamscore = second.optString("score");
-                                        //team2.setText(secondteam);
-                                        //team2score.setText(secondteamscore);
 
+                                        //This will show on different lines in Notifications
                                         String[] events = new String[6];
 
                                         events[0]=firstteam;
@@ -117,12 +123,10 @@ public class BackgroundService extends Service {
                                             inboxStyle.addLine(events[i]);
                                         }
                                         builder.setStyle(inboxStyle);
-                                        builder.setContentTitle("IPL");
-                                        builder.setContentText("Live Scores");
 
-                                        //
-                                        Intent intent = new Intent("GPSLocationUpdates");
-                                        // You can also include some extra data.
+                                        // This is used to send data to MainActivity through a BroadcastReceiver
+
+                                        Intent intent = new Intent("LiveUpdates");
                                         intent.putExtra("Status", "extra");
                                         Bundle b = new Bundle();
 
@@ -133,7 +137,7 @@ public class BackgroundService extends Service {
 
                                         intent.putExtra("ScoreSheet",b);
                                         LocalBroadcastManager.getInstance(BackgroundService.this).sendBroadcast(intent);
-                                        //
+
 
                                         mNotificationManager.notify(0, builder.build());
 
@@ -163,19 +167,29 @@ public class BackgroundService extends Service {
 
     @Override
     public void onDestroy() {
+        timer.cancel();
         super.onDestroy();
     }
 
     @Override
     public void onRebind(Intent intent) {
         super.onRebind(intent);
-        timer.schedule(timerTask, 10000, 10000);
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        //mNotificationManager.cancel(0);
+        mNotificationManager.cancel(0);
+        timer.cancel();
         return super.onUnbind(intent);
     }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        timer.cancel();
+        mNotificationManager.cancel(0);
+        stopSelf();
+        super.onTaskRemoved(rootIntent);
+    }
 }
+
 

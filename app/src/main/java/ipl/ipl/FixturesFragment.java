@@ -428,19 +428,19 @@ public class FixturesFragment extends Fragment {
                 "            \"date\":\"16 May\",\n" +
                 "            \"title\":\"Qualifier 1\",\n" +
                 "            \"time\":\"8:00 pm\",\n" +
-                "            \"location\":\"Venue : \"\n" +
+                "            \"location\":\"Venue : Mumbai\"\n" +
                 "        },\n" +
                 "        {\n" +
                 "            \"date\":\"17 May\",\n" +
                 "            \"title\":\"Eliminator\",\n" +
                 "            \"time\":\"8:00 pm\",\n" +
-                "            \"location\":\"Venue : \"\n" +
+                "            \"location\":\"Venue : Bangalore\"\n" +
                 "        },\n" +
                 "        {\n" +
                 "            \"date\":\"19 May\",\n" +
                 "            \"title\":\"Qualifier 2\",\n" +
                 "            \"time\":\"8:00 pm\",\n" +
-                "            \"location\":\"Venue : \"\n" +
+                "            \"location\":\"Venue : Bangalore\"\n" +
                 "        },\n" +
                 "        {\n" +
                 "            \"date\":\"21 May\",\n" +
