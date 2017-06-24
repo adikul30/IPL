@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static ipl.ipl.R.id.main_layout;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Teams"));
         tabLayout.addTab(tabLayout.newTab().setText("Fixtures"));
 
-        Toast.makeText(this,"To kill notification destroy app from the app tray",Toast.LENGTH_SHORT).show();
+        Toasty.info(this, "To kill notification destroy app from the app tray", Toast.LENGTH_SHORT, true).show();
 
         //Initialzing service
 
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     .setScrollable(true)
                     .setIcon(R.drawable.ic_github)
                     .withIconAnimation(true)
-                    .setPositiveText("OK Cool, Let's GO !")
+                    .setPositiveText("Cool, Let's GO !")
                     .setNegativeText("Maybe Later")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override

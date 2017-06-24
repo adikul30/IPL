@@ -69,6 +69,7 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
             return fixturesArrayList.size();
         }
     }
+
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }

@@ -32,5 +32,6 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.github.javiersantos:MaterialStyledDialogs:2.1'
+    compile 'com.github.GrenderG:Toasty:1.2.5'
     testCompile 'junit:junit:4.12'
 }
